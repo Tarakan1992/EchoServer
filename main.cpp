@@ -5,6 +5,8 @@
 #define MY_PORT    8082
 #define HELLO "Hello!\n"
 
+
+//include ws2_32.lib
 DWORD WINAPI EchoConversation(LPVOID client_socket);
 
 int main()
