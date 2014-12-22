@@ -1,9 +1,10 @@
+#pragma comment(lib, "Ws2_32.lib")
 #include <stdio.h>
 #include <winsock2.h> 
 #include <windows.h>
 
-#define MY_PORT    8082
-#define HELLO "Hello!\n"
+#define MY_PORT 7777
+#define HELLO "Welcome to EchoServer!\n"
 
 
 //include ws2_32.lib
@@ -12,8 +13,6 @@ DWORD WINAPI EchoConversation(LPVOID client_socket);
 int main()
 {
 	char buff[1024];  
-
-
 
 	if (WSAStartup(0x0202,(WSADATA*) &buff[0])) 
 	{
@@ -48,9 +47,10 @@ int main()
 		return -1;
 	}
 
+	printf("EchoServer was started on port %d", MY_PORT);
+
 	SOCKET client_socket;  
 	sockaddr_in client_addr;   
-
 
 
 	while((client_socket = accept(mysocket, (sockaddr *)
@@ -61,8 +61,6 @@ int main()
 		&client_socket,NULL,&thID);
 	}
 
-
-	
 	closesocket(mysocket);
 	WSACleanup();
 
@@ -78,11 +76,11 @@ DWORD WINAPI EchoConversation(LPVOID client_socket)
 	
 	char buff[1024];
  
-	send(my_sock,HELLO,sizeof(HELLO),0);
+	send(my_sock, HELLO, sizeof(HELLO), 0);
 
 	int bytes_recv;
 
-	while((bytes_recv = recv(my_sock,&buff[0],sizeof(buff),0)) && bytes_recv != SOCKET_ERROR)
+	while((bytes_recv = recv(my_sock, &buff[0],sizeof(buff),0)) && bytes_recv != SOCKET_ERROR)
 	{
 		send(my_sock,&buff[0],bytes_recv,0);
 	}
